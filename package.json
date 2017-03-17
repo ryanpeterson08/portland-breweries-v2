@@ -1,0 +1,11 @@
+{
+  "name": "portland-breweries",
+  "version": "1.0.0",
+  "description": "map or portland breweries",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ryan peterson",
+  "license": "ISC"
+}
