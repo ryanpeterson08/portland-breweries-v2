@@ -9,9 +9,17 @@ export class BreweryService {
   public map: Map;
   public tiles: any;
   public breweryLayer: any;
+  public pubIcon: any;
 
   constructor(private http: Http) {
 
+   }
+
+   createIcon(){
+     this.pubIcon = L.icon({
+       iconUrl: '../img/pubIcon.png',
+       iconSize: [60, 50]
+     });
    }
 
    makeMap(){
@@ -28,10 +36,17 @@ export class BreweryService {
      return this.http.get('http://localhost:3000/map/pubs', {headers:headers})
                 .map(res => res.json())
                 .subscribe(result => {
-                for(var i = 0; i < result.length; i++){
-                  this.breweryLayer = L.geoJSON(result[i]).addTo(this.map);
-                }
-
+                  this.breweryLayer = L.geoJSON(result, {
+                    pointToLayer: function(feature, latlng){
+                      var pubIcon = new L.Icon({
+                        iconUrl: '../img/pubIcon.png',
+                        iconSize: [60, 50]
+                      });
+                      return L.marker(latlng, {icon: pubIcon});
+                    }
+                  });
+                  console.log(this.breweryLayer);
+                  this.breweryLayer.addTo(this.map);
               });
    }
 
