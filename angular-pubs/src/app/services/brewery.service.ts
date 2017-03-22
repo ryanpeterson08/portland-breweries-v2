@@ -12,24 +12,42 @@ export class BreweryService {
   public tiles: any;
   public breweryLayer: any;
   public pubIcon: any;
-  public markers: any
+  public markers: any;
+  // public pubArray: any[];
 
-  constructor(private http: Http) { }
-  //  createIcon(){
-  //    this.pubIcon = L.icon({
-  //      iconUrl: '../img/pubIcon.png',
-  //      iconSize: [60, 50]
-  //    });
-  //    return this.pubIcon;
-  //  }
+  constructor(private http: Http) {}
 
-   makeMap(){
-     this.map = L.map('map').setView([45.47, -122.69], 13);
-     this.tiles = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
-       attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-       ext: 'png'
-     }).addTo(this.map);
-   }
+  createIcon(){
+   this.pubIcon = L.icon({
+     iconUrl: '../img/pubIcon.png',
+     iconSize: [60, 50]
+   });
+   return this.pubIcon;
+  }
+
+  makeMap(){
+   this.map = L.map('map').setView([45.47, -122.69], 13);
+   this.tiles = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
+     attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+     ext: 'png'
+   }).addTo(this.map);
+  }
+
+  createPubArray(){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/map/pubs', {headers:headers})
+               .map(res => res.json())
+               .subscribe(result => {
+                 var pubArray = [];
+                 for(var i = 0; i < result.length; i++){
+                   pubArray.push(result[i]);
+                 }
+                 console.log(pubArray);
+                return pubArray;
+               });
+  }
+
 
    getBreweries(){
      let headers = new Headers();
@@ -38,21 +56,15 @@ export class BreweryService {
                 .map(res => res.json())
                 .subscribe(result => {
                   this.breweryLayer = L.geoJSON(result, {
-                    pointToLayer: function(feature, latlng){
-                      var pubIcon = new L.Icon({
-                        iconUrl: '../img/pubIcon.png',
-                        iconSize: [60, 50]
-                      });
-                      return L.marker(latlng, {icon: pubIcon});
+                    pointToLayer: (feature, latlng) => {
+                      return L.marker(latlng, {icon: this.createIcon()});
                     }
                   });
                   this.markers = L.markerClusterGroup({
-                    iconCreateFunction: function(cluster){
-                      return this.pubIcon = new L.Icon({
-                        iconUrl: '../img/pubIcon.png',
-                        iconSize: [60, 50]
-                      });
-                    }, disableClusteringAtZoom: 13,
+                    iconCreateFunction: (cluster) => {
+                      return this.createIcon();
+                    },
+                    disableClusteringAtZoom: 13,
                     showCoverageOnHover: false
                   });
                   this.markers.addLayer(this.breweryLayer);

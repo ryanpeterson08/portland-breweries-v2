@@ -13,10 +13,9 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.breweryService.makeMap();
-
     this.breweryService.getBreweries();
 
-    
+    this.breweryService.createPubArray();
   }
 
 }
