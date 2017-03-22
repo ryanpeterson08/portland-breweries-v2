@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Map } from 'leaflet';
+//import { MarkerClusterGroup } from 'leaflet.markercluster';
 import 'rxjs/add/operator/map';
+import 'leaflet.markercluster/dist/leaflet.markercluster';
 
 @Injectable()
 export class BreweryService {
@@ -10,17 +12,19 @@ export class BreweryService {
   public tiles: any;
   public breweryLayer: any;
   public pubIcon: any;
+  public markers: any
 
   constructor(private http: Http) {
+    this.pubIcon = L.icon({
+      iconUrl: '../img/pubIcon.png',
+      iconSize: [60, 50]
+    });
 
    }
 
-   createIcon(){
-     this.pubIcon = L.icon({
-       iconUrl: '../img/pubIcon.png',
-       iconSize: [60, 50]
-     });
-   }
+  //  createIcon(){
+  //    return this.pubIcon;
+  //  }
 
    makeMap(){
      this.map = L.map('map').setView([45.47, -122.69], 13);
@@ -45,8 +49,18 @@ export class BreweryService {
                       return L.marker(latlng, {icon: pubIcon});
                     }
                   });
-                  console.log(this.breweryLayer);
-                  this.breweryLayer.addTo(this.map);
+                  this.markers = L.markerClusterGroup({
+                    iconCreateFunction: function(cluster){
+                      return this.pubIcon = new L.Icon({
+                        iconUrl: '../img/pubIcon.png',
+                        iconSize: [60, 50]
+                      });
+                    }, disableClusteringAtZoom: 13,
+                    showCoverageOnHover: false
+                  });
+                  this.markers.addLayer(this.breweryLayer);
+                  //this.breweryLayer.addTo(this.map);
+                  this.markers.addTo(this.map);
               });
    }
 
