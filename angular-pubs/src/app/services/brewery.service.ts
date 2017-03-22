@@ -34,18 +34,12 @@ export class BreweryService {
   }
 
   createPubArray(){
+    var pubArray = [];
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.get('http://localhost:3000/map/pubs', {headers:headers})
                .map(res => res.json())
-               .subscribe(result => {
-                 var pubArray = [];
-                 for(var i = 0; i < result.length; i++){
-                   pubArray.push(result[i]);
-                 }
-                 console.log(pubArray);
-                return pubArray;
-               });
+               
   }
 
 
