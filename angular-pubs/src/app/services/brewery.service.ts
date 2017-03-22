@@ -14,15 +14,12 @@ export class BreweryService {
   public pubIcon: any;
   public markers: any
 
-  constructor(private http: Http) {
-    this.pubIcon = L.icon({
-      iconUrl: '../img/pubIcon.png',
-      iconSize: [60, 50]
-    });
-
-   }
-
+  constructor(private http: Http) { }
   //  createIcon(){
+  //    this.pubIcon = L.icon({
+  //      iconUrl: '../img/pubIcon.png',
+  //      iconSize: [60, 50]
+  //    });
   //    return this.pubIcon;
   //  }
 
@@ -59,7 +56,6 @@ export class BreweryService {
                     showCoverageOnHover: false
                   });
                   this.markers.addLayer(this.breweryLayer);
-                  //this.breweryLayer.addTo(this.map);
                   this.markers.addTo(this.map);
               });
    }

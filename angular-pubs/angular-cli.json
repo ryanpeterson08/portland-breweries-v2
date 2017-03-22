@@ -18,6 +18,7 @@
       "prefix": "app",
       "mobile": false,
       "styles": ["../node_modules/leaflet/dist/leaflet.css", "../node_modules/leaflet.markercluster/dist/MarkerCluster.css",
+        "../bower_components/bootstrap/dist/css/bootstrap.css",
         "styles.css"
       ],
       "scripts": [ "../node_modules/leaflet/dist/leaflet.js", "../node_modules/leaflet.markercluster/dist/leaflet.markercluster.js"],
