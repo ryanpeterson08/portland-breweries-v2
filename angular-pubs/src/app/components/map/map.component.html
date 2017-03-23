@@ -1,6 +1,10 @@
 <h1>Breweries</h1>
 <div id="map"></div>
 
-<ul>
-  <li *ngFor="let currentPub of pubArray">{{currentPub.properties.Brewery}}</li>
-</ul>
+<div class="row" >
+  <div *ngFor="let currentPub of pubArray">
+    <div class="col-md-4">
+     <li><input type='checkbox' name='visited-pubs' value=''> "{{currentPub.properties.Brewery}}</li>
+   </div>
+  </div>
+</div>

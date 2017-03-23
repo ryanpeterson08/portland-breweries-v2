@@ -7,3 +7,9 @@ h1{
   color: white;
   font-size: 100px;
 }
+
+li{
+  color: white;
+  list-style: none;
+  margin-top: 5px;
+}
