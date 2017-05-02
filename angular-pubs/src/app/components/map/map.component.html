@@ -1,10 +1,22 @@
-<h1>Breweries</h1>
-<div id="map"></div>
-
-<div class="row" >
-  <div *ngFor="let currentPub of pubArray">
-    <div class="col-md-4">
-     <li><input type='checkbox' name='visited-pubs' [checked]="currentPub.properties.Visited" (click)="updateStatus(currentPub)"> "{{currentPub.properties.Brewery}}</li>
-   </div>
+<h1>Portland Brewery Passport</h1>
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4">
+        <nav class="navbar navbar-inverse navbar-fixed-side">
+          <!-- normal collapsible navbar markup -->
+          <div class="row" >
+            <div *ngFor="let currentPub of pubArray">
+                <li><input type='checkbox' name='visited-pubs' [checked]="currentPub.properties.Visited" (click)="updateStatus(currentPub)"> "{{currentPub.properties.Brewery}}</li>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="col-md-8">
+        <!-- your page content -->
+        <div id="map"></div>
+      </div>
+    </div>
   </div>
+
 </div>
