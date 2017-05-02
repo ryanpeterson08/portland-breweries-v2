@@ -20,13 +20,23 @@ export class MapComponent implements OnInit {
     this.breweryService.createPubArray().subscribe(result => {
       for(var i = 0; i < result.length; i++){
         this.pubArray.push(result[i]);
-        console.log(this.pubArray[i])
       }
     });
 
   }
 
+  updateStatus(pub){
+    var _pub = {
+      _id: pub._id,
+      Brewery: pub.properties.Brewery,
+      Address: pub.properties.Address,
+      Website: pub.properties.Website,
+      Visited: !pub.properties.Visited
+    };
 
-
+    this.breweryService.updateVisit(_pub).subscribe(data => {
+      pub.properties.Visited = !pub.properties.Visited;
+    });
+  }
 
 }

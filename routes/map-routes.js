@@ -16,4 +16,43 @@ router.get('/pubs', (req, res, next) => {
   });
 });
 
+router.put('/pub/:id', (req, res, next) => {
+  var pub = req.body;
+  var updatedPub = {};
+
+  if(pub.properties.Visited){
+    updatedPub.properties.Visited = pub.properties.Visited;
+  }
+
+  if(pub.properties.Brewery){
+    updatedPub.properties.Brewery = pub.properties.Brewery;
+  }
+
+  if(pub.properties.Address){
+    updatedPub.properties.Brewery = pub.properties.Address;
+  }
+
+  if(pub.properties.Website){
+    updatedPub.properties.Brewery = pub.properties.Website;
+  }
+
+  if(pub.properties.Amenities){
+    updatedPub.properties.Brewery = pub.properties.Amenities;
+  }
+
+  if(!updatedPub){
+    res.status(400);
+    res.json({
+      "error": "Bad data"
+    });
+  } else {
+    db.breweries.update({_id: mongojs.ObjectId(req.params.id)}, updatedPub, {}, (err, pub) => {
+      if(err){
+        res.send(err);
+      }
+      res.json(pub);
+    });
+  }
+});
+
 module.exports = router;

@@ -4,6 +4,7 @@ import { Map } from 'leaflet';
 //import { MarkerClusterGroup } from 'leaflet.markercluster';
 import 'rxjs/add/operator/map';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
+import * as $ from 'jquery';
 
 @Injectable()
 export class BreweryService {
@@ -13,7 +14,8 @@ export class BreweryService {
   public breweryLayer: any;
   public pubIcon: any;
   public markers: any;
-  // public pubArray: any[];
+
+
 
   constructor(private http: Http) {}
 
@@ -26,24 +28,26 @@ export class BreweryService {
   }
 
   makeMap(){
-   this.map = L.map('map').setView([45.47, -122.69], 13);
+   this.map = L.map('map').setView([45.47, -122.69], 10);
    this.tiles = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
      ext: 'png'
    }).addTo(this.map);
   }
 
+  //for component to have access to pubs and create a checklist in the html
   createPubArray(){
     var pubArray = [];
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.get('http://localhost:3000/map/pubs', {headers:headers})
                .map(res => res.json())
-               
+
   }
 
 
    getBreweries(){
+
      let headers = new Headers();
      headers.append('Content-Type', 'application/json');
      return this.http.get('http://localhost:3000/map/pubs', {headers:headers})
@@ -52,6 +56,14 @@ export class BreweryService {
                   this.breweryLayer = L.geoJSON(result, {
                     pointToLayer: (feature, latlng) => {
                       return L.marker(latlng, {icon: this.createIcon()});
+                    },
+                    onEachFeature: (feature, layer) => {
+                      //feature.layer = layer;
+                      var breweryName = feature.properties.Brewery;
+                      var breweryAddress = feature.properties.Address;
+                      var breweryLink = feature.properties.Website;
+                      var breweryVisited = feature.properties.Visited;
+                      var popup = layer.bindPopup("<h5>" + breweryName + "</h5><p>" + breweryAddress + "</p><a href='" + breweryLink + "' target='_blank'>" + breweryLink + "</a><br>");
                     }
                   });
                   this.markers = L.markerClusterGroup({
@@ -66,4 +78,13 @@ export class BreweryService {
               });
    }
 
+   updateVisit(pub){
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.put('http://localhost:3000/api/pub/'+ pub._id, JSON.stringify(pub), {headers:headers})
+            .map(res => res.json());
+    }
+
 }
+
+//

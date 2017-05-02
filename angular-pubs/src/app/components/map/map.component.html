@@ -4,7 +4,7 @@
 <div class="row" >
   <div *ngFor="let currentPub of pubArray">
     <div class="col-md-4">
-     <li><input type='checkbox' name='visited-pubs' value=''> "{{currentPub.properties.Brewery}}</li>
+     <li><input type='checkbox' name='visited-pubs' [checked]="currentPub.properties.Visited" (click)="updateStatus(currentPub)"> "{{currentPub.properties.Brewery}}</li>
    </div>
   </div>
 </div>
