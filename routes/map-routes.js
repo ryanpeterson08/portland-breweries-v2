@@ -18,10 +18,14 @@ router.get('/pubs', (req, res, next) => {
 
 router.put('/pub/:id', (req, res, next) => {
   var pub = req.body;
-  var updatedPub = {};
+  console.log(pub);
+  var updatedPub = {
+    properties: {},
+    geometry:{}
+  };
 
-  if(pub.properties.Visited){
-    updatedPub.properties.Visited = pub.properties.Visited;
+  if(pub.type){
+    updatedPub.type = pub.type
   }
 
   if(pub.properties.Brewery){
@@ -29,17 +33,29 @@ router.put('/pub/:id', (req, res, next) => {
   }
 
   if(pub.properties.Address){
-    updatedPub.properties.Brewery = pub.properties.Address;
+    updatedPub.properties.Address = pub.properties.Address;
   }
 
   if(pub.properties.Website){
-    updatedPub.properties.Brewery = pub.properties.Website;
+    updatedPub.properties.Website = pub.properties.Website;
   }
 
   if(pub.properties.Amenities){
-    updatedPub.properties.Brewery = pub.properties.Amenities;
+    updatedPub.properties.Amenities = pub.properties.Amenities;
   }
 
+  if(pub.properties.Visited){
+    updatedPub.properties.Visited = pub.properties.Visited;
+  }
+
+  if(pub.geometry.type){
+    updatedPub.geometry.type = pub.geometry.type;
+  }
+
+  if(pub.geometry.coordinates){
+    updatedPub.geometry.coordinates = pub.geometry.coordinates;
+  }
+  console.log()
   if(!updatedPub){
     res.status(400);
     res.json({
@@ -54,5 +70,6 @@ router.put('/pub/:id', (req, res, next) => {
     });
   }
 });
+
 
 module.exports = router;

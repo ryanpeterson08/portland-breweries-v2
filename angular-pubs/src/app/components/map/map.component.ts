@@ -28,12 +28,20 @@ export class MapComponent implements OnInit {
   updateStatus(pub){
     var _pub = {
       _id: pub._id,
-      Brewery: pub.properties.Brewery,
-      Address: pub.properties.Address,
-      Website: pub.properties.Website,
-      Visited: !pub.properties.Visited
+      type: pub.type,
+      properties: {
+        Brewery: pub.properties.Brewery,
+        Address: pub.properties.Address,
+        Website: pub.properties.Website,
+        Amenities: pub.properties.Amenities,
+        Visited: !pub.properties.Visited
+      },
+      geometry: {
+        type: pub.geometry.type,
+        coordinates: pub.geometry.coordinates
+      }
     };
-
+    
     this.breweryService.updateVisit(_pub).subscribe(data => {
       pub.properties.Visited = !pub.properties.Visited;
     });

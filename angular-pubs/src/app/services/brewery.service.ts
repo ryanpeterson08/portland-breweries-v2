@@ -81,7 +81,7 @@ export class BreweryService {
    updateVisit(pub){
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this.http.put('http://localhost:3000/api/pub/'+ pub._id, JSON.stringify(pub), {headers:headers})
+        return this.http.put('http://localhost:3000/map/pub/'+ pub._id, JSON.stringify(pub), {headers:headers})
             .map(res => res.json());
     }
 
