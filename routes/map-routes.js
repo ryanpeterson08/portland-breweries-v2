@@ -18,7 +18,7 @@ router.get('/pubs', (req, res, next) => {
 
 router.put('/pub/:id', (req, res, next) => {
   var pub = req.body;
-  console.log(pub);
+  
   var updatedPub = {
     properties: {},
     geometry:{}
@@ -55,7 +55,7 @@ router.put('/pub/:id', (req, res, next) => {
   if(pub.geometry.coordinates){
     updatedPub.geometry.coordinates = pub.geometry.coordinates;
   }
-  console.log()
+
   if(!updatedPub){
     res.status(400);
     res.json({

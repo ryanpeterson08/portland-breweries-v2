@@ -13,18 +13,27 @@ export class BreweryService {
   public tiles: any;
   public breweryLayer: any;
   public pubIcon: any;
+  public flagIcon: any;
   public markers: any;
 
 
 
   constructor(private http: Http) {}
 
-  createIcon(){
+  createPubIcon(){
    this.pubIcon = L.icon({
-     iconUrl: '../img/pubIcon.png',
+     iconUrl: 'https://rawgit.com/ryanpeterson08/portland-breweries/master/img/pubIcon.png',
+     //iconUrl: '../img/pubIcon.png',
      iconSize: [60, 50]
    });
    return this.pubIcon;
+  }
+  createFlagIcon(){
+    this.flagIcon = L.icon({
+      iconUrl: 'https://rawgit.com/ryanpeterson08/portland-breweries/master/img/flag.png',
+      iconSize: [30, 50]
+    });
+    return this.flagIcon;
   }
 
   makeMap(){
@@ -55,10 +64,14 @@ export class BreweryService {
                 .subscribe(result => {
                   this.breweryLayer = L.geoJSON(result, {
                     pointToLayer: (feature, latlng) => {
-                      return L.marker(latlng, {icon: this.createIcon()});
+                      if(feature.properties.Visited === false){
+                        return L.marker(latlng, {icon: this.createPubIcon()});
+                      } else {
+                        return L.marker(latlng, {icon: this.createFlagIcon()});
+                      }
                     },
                     onEachFeature: (feature, layer) => {
-                      //feature.layer = layer;
+                      feature.layer = layer;
                       var breweryName = feature.properties.Brewery;
                       var breweryAddress = feature.properties.Address;
                       var breweryLink = feature.properties.Website;
@@ -68,7 +81,7 @@ export class BreweryService {
                   });
                   this.markers = L.markerClusterGroup({
                     iconCreateFunction: (cluster) => {
-                      return this.createIcon();
+                      return this.createPubIcon();
                     },
                     disableClusteringAtZoom: 13,
                     showCoverageOnHover: false
