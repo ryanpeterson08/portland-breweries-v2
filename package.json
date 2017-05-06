@@ -9,9 +9,14 @@
   "author": "ryan peterson",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
     "cors": "^2.8.1",
     "express": "^4.15.2",
-    "mongojs": "^2.4.0"
+    "jsonwebtoken": "^7.4.0",
+    "mongojs": "^2.4.0",
+    "mongoose": "^4.9.7",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1"
   }
 }
