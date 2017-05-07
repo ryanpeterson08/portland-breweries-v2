@@ -4,7 +4,7 @@ const collections = ["pubs"];
 const mongojs = require('mongojs');
 const config = require('../config/database');
 //161209 61209
-const db = mongojs('mongodb://' + config.userName + ':' + config.password + '@ds161209.mlab.com:61209/portland_breweries', ['breweries']);
+const db = mongojs('mongodb://pete:pete@ds161209.mlab.com:61209/portland_breweries', ['breweries']);
 
 router.get('/pubs', (req, res, next) => {
   db.breweries.find((err, pubs) => {
@@ -18,8 +18,9 @@ router.get('/pubs', (req, res, next) => {
 
 router.put('/pub/:id', (req, res, next) => {
   var pub = req.body;
-  
+
   var updatedPub = {
+    type: "",
     properties: {},
     geometry:{}
   };
@@ -44,9 +45,9 @@ router.put('/pub/:id', (req, res, next) => {
     updatedPub.properties.Amenities = pub.properties.Amenities;
   }
 
-  if(pub.properties.Visited){
-    updatedPub.properties.Visited = pub.properties.Visited;
-  }
+
+  updatedPub.properties.Visited = pub.properties.Visited;
+  
 
   if(pub.geometry.type){
     updatedPub.geometry.type = pub.geometry.type;

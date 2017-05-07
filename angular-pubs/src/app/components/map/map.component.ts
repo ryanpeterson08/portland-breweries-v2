@@ -41,7 +41,7 @@ export class MapComponent implements OnInit {
         coordinates: pub.geometry.coordinates
       }
     };
-    
+    console.log(_pub.properties.Visited);
     this.breweryService.updateVisit(_pub).subscribe(data => {
       pub.properties.Visited = !pub.properties.Visited;
     });
